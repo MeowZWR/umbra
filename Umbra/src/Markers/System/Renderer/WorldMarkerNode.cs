@@ -61,7 +61,7 @@ internal class WorldMarkerNode : Node
             },
             new() {
                 ClassList = ["distance-label"],
-                NodeValue = "0.0 yalms",
+                NodeValue = "0.0 米",
             }
         ];
     }
@@ -155,7 +155,7 @@ internal class WorldMarkerNode : Node
             opacity = Math.Clamp((distance - minDist) / (maxDist - minDist), 0, 1);
         }
 
-        QuerySelector(".distance-label")!.NodeValue = $"{Math.Ceiling(distance)} yalms";
+        QuerySelector(".distance-label")!.NodeValue = $"{Math.Ceiling(distance)} 米";
         UpdateNodeSizes();
 
         Style.Opacity = opacity;
