@@ -144,6 +144,8 @@
     "Settings.MarkersModule.Config.FadeAttenuation.Description": "Une marge ajoutée à la distance de disparition configurée à partir de laquelle le marqueur commencera à disparaître.",
     "Settings.MarkersModule.Config.MaxVisibleDistance.Name": "Distance visible maximale (0 = illimitée)",
     "Settings.MarkersModule.Config.MaxVisibleDistance.Description": "La distance maximale en yalms à laquelle le marqueur est visible. Au-delà de cette distance, le marqueur disparaît pour éviter d'encombrer l'écran avec trop de marqueurs visibles. Mets à 0 pour désactiver.",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Name": "Symbole textuel de boussole",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Description": "Le symbole textuel à afficher sur la boussole au lieu d'une icône. Laissez vide pour utiliser l'icône. Vous pouvez utiliser des caractères Unicode comme ★, ❤, ➡, etc.",
     "Settings.AuxWidgetsModule.Name": "Barre auxiliaire",
     "Settings.AuxWidgetsModule.ListHeader": "Widgets de la barre auxiliaire",
     "Settings.AuxWidgetsModule.Config.Enabled.Name": "Activer la barre auxiliaire",

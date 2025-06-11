@@ -54,6 +54,13 @@ public record WorldMarker
     public uint IconId { get; set; }
 
     /// <summary>
+    /// Specifies the text to be displayed on the compass instead of an icon.
+    /// If this is set, it will be used instead of the IconId when showing
+    /// this marker on the compass.
+    /// </summary>
+    public string? CompassText { get; set; }
+
+    /// <summary>
     /// <para>
     /// Determines where the marker is placed in the world.
     /// </para>

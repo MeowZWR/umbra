@@ -88,6 +88,8 @@
     "Markers.TripleTriad.ShowLockedCards.Description": "显示由于前置任务未完成等原因而无法获取的幻卡",
     "Markers.Vista.Name": "探索笔记标记",
     "Markers.Vista.Description": "显示当前区域中尚未完成的探索笔记景点的世界标记。",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Name": "指南针文本符号",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Description": "在指南针上显示的文本符号，留空则使用图标。可以使用Unicode字符，如★、❤、➡等。",
     "Markers.Waymark.Name": "场景标记",
     "Markers.Waymark.Description": "显示当前区域中已放置的场景标记。",
     "Settings.Window.Title": "插件设置",

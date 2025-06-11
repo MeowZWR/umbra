@@ -144,6 +144,8 @@
     "Settings.MarkersModule.Config.FadeAttenuation.Description": "An added range to the configured fade distance from which the marker will start to fade out.",
     "Settings.MarkersModule.Config.MaxVisibleDistance.Name": "Maximum visible distance (0 = unlimited)",
     "Settings.MarkersModule.Config.MaxVisibleDistance.Description": "The maximum distance in yalms at which the marker is visible. After this distance, the marker will fade out to prevent clutter of too many visible markers on the screen. Set to 0 to disable.",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Name": "Compass text symbol",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Description": "The text symbol to display on the compass instead of an icon. Leave empty to use the icon. You can use Unicode characters like ★, ❤, ➡, etc.",
     "Settings.AuxWidgetsModule.Name": "Auxiliary Bar",
     "Settings.AuxWidgetsModule.ListHeader": "Auxiliary Bar Widgets",
     "Settings.AuxWidgetsModule.Config.Enabled.Name": "Enable the auxiliary bar",

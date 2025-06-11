@@ -144,6 +144,8 @@
     "Settings.MarkersModule.Config.FadeAttenuation.Description": "Ein zusätzlicher Bereich zur konfigurierten Ausblenddistanz, ab dem die Markierung ausgeblendet wird.",
     "Settings.MarkersModule.Config.MaxVisibleDistance.Name": "Maximale sichtbare Distanz (0 = unbegrenzt)",
     "Settings.MarkersModule.Config.MaxVisibleDistance.Description": "Die maximale Entfernung in Yalms, bei der der Marker sichtbar ist. Nach dieser Entfernung wird der Marker ausgeblendet, um zu verhindern, dass der Bildschirm mit zu vielen Markern überladen wird. Auf 0 setzen, um zu deaktivieren.",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Name": "Kompass-Textsymbol",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Description": "Das Textsymbol, das anstelle eines Symbols auf dem Kompass angezeigt werden soll. Leer lassen, um das Symbol zu verwenden. Sie können Unicode-Zeichen wie ★, ❤, ➡ usw. verwenden.",
     "Settings.AuxWidgetsModule.Name": "Hilfsleiste",
     "Settings.AuxWidgetsModule.ListHeader": "Hilfsleistenelemente",
     "Settings.AuxWidgetsModule.Config.Enabled.Name": "Hilfsleiste aktivieren",

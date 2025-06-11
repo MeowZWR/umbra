@@ -144,6 +144,8 @@
     "Settings.MarkersModule.Config.FadeAttenuation.Description": "構成されたフェード距離に追加される範囲で、その範囲からマーカーがフェードアウトを開始します。",
     "Settings.MarkersModule.Config.MaxVisibleDistance.Name": "最大表示距離 (0 = 無制限)",
     "Settings.MarkersModule.Config.MaxVisibleDistance.Description": "マーカーが表示される最大距離（ヤルム単位）。この距離を超えると、画面上のマーカーが多すぎてごちゃごちゃしないように、マーカーが消えます。無効にするには0を設定してください。",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Name": "コンパステキストシンボル",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Description": "コンパス上でアイコンの代わりに表示するテキストシンボル。空白のままにするとアイコンが使用されます。★、❤、➡などのUnicode文字を使用できます。",
     "Settings.AuxWidgetsModule.Name": "補助バー",
     "Settings.AuxWidgetsModule.ListHeader": "補助バーウィジェット",
     "Settings.AuxWidgetsModule.Config.Enabled.Name": "補助バーを有効にする",
