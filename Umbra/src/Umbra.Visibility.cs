@@ -112,7 +112,7 @@ public sealed class UmbraVisibility
         if (_condition[ConditionFlag.CreatingCharacter]) return false;
 
         // Always disable markers when in PvP.
-        if (_player.IsInPvP) return false;
+        //if (_player.IsInPvP) return false;
 
         if (_clientState.IsGPosing && !ShowMarkersInGPose) return false;
 
