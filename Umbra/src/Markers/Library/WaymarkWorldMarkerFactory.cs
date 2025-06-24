@@ -48,6 +48,7 @@ public class WaymarkWorldMarkerFactory(IPlayer player, IZoneManager zoneManager)
         var fadeDistance    = GetConfigValue<int>("FadeDistance");
         var fadeAttenuation = GetConfigValue<int>("FadeAttenuation");
         var maxVisDistance  = GetConfigValue<int>("MaxVisibleDistance");
+        var compassText     = GetConfigValue<string>("CompassTextSymbol");
 
         for (var i = 0; i < 8; i++) {
             var marker = mc->FieldMarkers[i];
@@ -63,6 +64,7 @@ public class WaymarkWorldMarkerFactory(IPlayer player, IZoneManager zoneManager)
                     IconId             = Icons[i],
                     Position           = new(marker.X / 1000f, marker.Y / 1000f, marker.Z / 1000f),
                     ShowOnCompass      = showDirection,
+                    CompassText        = !string.IsNullOrEmpty(compassText) ? $"{compassText} {(char)('A' + i)}" : null,
                     FadeDistance       = new(fadeDistance, fadeDistance + fadeAttenuation),
                     MaxVisibleDistance = maxVisDistance,
                 }

@@ -87,17 +87,30 @@ internal sealed class CompassRenderer(
             // Skip rendering if the marker is behind a UI window.
             if (!ShouldRenderAt(new(p1, p2))) continue;
 
-            // Skip rendering if the icon is not loaded.
-            if (GetIcon(marker.IconId) is not { } icon) continue;
+            // 如果设置了CompassText，则渲染文本而不是图标
+            if (!string.IsNullOrEmpty(marker.CompassText)) {
+                bool isOnRightSide = iconPos.X > vpSize.X / 2;
+                Vector2 textPosition = p1;
+                if (isOnRightSide) {
+                    float textWidth = marker.CompassText.Length * 8 * (IconScaleFactor / 100f) * Node.ScaleFactor;
+                    textPosition.X -= textWidth;
+                }
 
-            ImGui
-               .GetBackgroundDrawList()
-               .AddImage(icon.ImGuiHandle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
+                ImGui
+                    .GetBackgroundDrawList()
+                    .AddText(textPosition, iconColor, marker.CompassText);
+            } else {
+                // Skip rendering if the icon is not loaded.
+                if (GetIcon(marker.IconId) is not { } icon) continue;
 
-            DrawDirectionArrowAt(iconPos + workPos, direction, iconSize, iconColor);
+                ImGui
+                   .GetBackgroundDrawList()
+                   .AddImage(icon.ImGuiHandle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
+
+                DrawDirectionArrowAt(iconPos + workPos, direction, iconSize, iconColor);
+            }
         }
     }
-
     private void DrawDirectionArrowAt(Vector2 screenPos, Vector2 direction, float iconSize, uint iconColor)
     {
         if (GetIcon(60541) is not { } arrow) return;

@@ -178,6 +178,12 @@ public abstract class WorldMarkerFactory : IDisposable
             null,
             true
         ),
+        new StringMarkerConfigVariable(
+            "CompassTextSymbol",
+            I18N.Translate("Settings.MarkersModule.Config.CompassTextSymbol.Name"),
+            I18N.Translate("Settings.MarkersModule.Config.CompassTextSymbol.Description"),
+            ""
+        ),
     ];
 
     protected static IEnumerable<IMarkerConfigVariable> DefaultFadeConfigVariables => [

@@ -1494,5 +1494,7 @@
   "Window.Installer.Finish.Text": "チャットウィンドウで「/umbra」と入力するとUmbraの設定ウィンドウを開き、心ゆくまでカスタマイズできます。ご質問やフィードバックがございましたら、お気軽にDiscordでお問い合わせください。\n\nUmbraをご利用いただきありがとうございます！",
   "Window.Installer.Finish.OpenSettings": "Umbra 設定ウィンドウをその後開く。",
   "Window.Installer.Footer.DontShowAgain": "このダイアログを再表示しない",
-  "Window.Installer.Footer.Description": "このウィンドウは、後でUmbraの設定画面からいつでも開けます。"
+  "Window.Installer.Footer.Description": "このウィンドウは、後でUmbraの設定画面からいつでも開けます。",
+  "Settings.MarkersModule.Config.CompassTextSymbol.Name": "コンパステキストシンボル",
+    "Settings.MarkersModule.Config.CompassTextSymbol.Description": "コンパス上でアイコンの代わりに表示するテキストシンボル。空白のままにするとアイコンが使用されます。★、❤、➡などのUnicode文字を使用できます。"
 }

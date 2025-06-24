@@ -1494,5 +1494,7 @@
   "Window.Installer.Finish.Text": "You can open Umbra's Settings window by typing \"/umbra\" in the chat window to customize everything to your hearts desire. If you have any questions or feedback, please feel free to reach out to us on Discord.\n\nThank you for using Umbra!",
   "Window.Installer.Finish.OpenSettings": "Open the Umbra Settings window afterwards.",
   "Window.Installer.Footer.DontShowAgain": "Don't show this dialog again.",
-  "Window.Installer.Footer.Description": "You can always open this window via Umbra's Settings window later."
+  "Window.Installer.Footer.Description": "You can always open this window via Umbra's Settings window later.",
+  "Settings.MarkersModule.Config.CompassTextSymbol.Name": "Compass text symbol",
+  "Settings.MarkersModule.Config.CompassTextSymbol.Description": "The text symbol to display on the compass instead of an icon. Leave empty to use the icon. You can use Unicode characters like ★, ❤, ➡, etc."
 }
