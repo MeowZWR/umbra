@@ -51,11 +51,11 @@ internal sealed class CompassRenderer(
         if (!Enabled || !visibility.AreMarkersVisible()) return;
         if (!zoneManager.HasCurrentZone) return;
 
-        float   iconSize  = 24 * (IconScaleFactor / 100f) * Node.ScaleFactor;
-        float   clampSize = iconSize * 2.5f;
-        uint    iconColor = (0xFFFFFFFFu).ApplyAlphaComponent(IconOpacity / 100f);
-        Vector2 vpSize    = ImGui.GetMainViewport().Size;
-        Vector2 workPos   = ImGui.GetMainViewport().WorkPos;
+        float iconSize = 24 * (IconScaleFactor / 100f) * Node.ScaleFactor;
+        float clampSize = iconSize * 2.5f;
+        uint iconColor = (0xFFFFFFFFu).ApplyAlphaComponent(IconOpacity / 100f);
+        Vector2 vpSize = ImGui.GetMainViewport().Size;
+        Vector2 workPos = ImGui.GetMainViewport().WorkPos;
 
         if (!gameCamera.WorldToScreen(player.Position, out Vector2 playerScreenPosition)) return;
 
@@ -65,8 +65,8 @@ internal sealed class CompassRenderer(
         foreach (var marker in registry.GetMarkers()) {
             if (!marker.ShowOnCompass) continue;
 
-            Vector3 pos  = marker.WorldPosition;
-            float   dist = Vector2.Distance(pos.ToVector2(), player.Position.ToVector2());
+            Vector3 pos = marker.WorldPosition;
+            float dist = Vector2.Distance(pos.ToVector2(), player.Position.ToVector2());
 
             if (marker.MaxVisibleDistance > 0 && dist > marker.MaxVisibleDistance) continue;
 
@@ -75,7 +75,7 @@ internal sealed class CompassRenderer(
                 continue;
 
             Vector2 direction = Vector2.Normalize(gameCamera.IsInFrontOfCamera(pos) ? markerScreenPosition - playerScreenPosition : playerScreenPosition - markerScreenPosition);
-            Vector2 iconPos   = playerScreenPosition + direction * CompassRadius;
+            Vector2 iconPos = playerScreenPosition + direction * CompassRadius;
 
             // Clamp the icon position to the screen bounds.
             iconPos.X = Math.Clamp(iconPos.X, clampSize, vpSize.X - clampSize);
@@ -88,37 +88,33 @@ internal sealed class CompassRenderer(
             if (!ShouldRenderAt(new(p1, p2))) continue;
 
             // 如果设置了CompassText，则渲染文本而不是图标
-            if (!string.IsNullOrEmpty(marker.CompassText))
-            {
+            if (!string.IsNullOrEmpty(marker.CompassText)) {
                 // 检查是否在屏幕右侧（水平方向上超过屏幕中点）
                 bool isOnRightSide = iconPos.X > vpSize.X / 2;
                 Vector2 textPosition = p1;
-                
+
                 // 如果在屏幕右侧，将文本位置向左偏移，避免与箭头重叠
-                if (isOnRightSide)
-                {
+                if (isOnRightSide) {
                     // 计算文本宽度（简单估算）
                     float textWidth = marker.CompassText.Length * 8 * (IconScaleFactor / 100f) * Node.ScaleFactor;
                     textPosition.X -= textWidth;
                 }
-                
+
                 ImGui
                     .GetBackgroundDrawList()
                     .AddText(textPosition, iconColor, marker.CompassText);
-            }
-            else
-            {
+            } else {
                 // Skip rendering if the icon is not loaded.
                 if (GetIcon(marker.IconId) is not { } icon) continue;
 
-            ImGui
-               .GetBackgroundDrawList()
-               .AddImage(icon.ImGuiHandle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
+                ImGui
+                   .GetBackgroundDrawList()
+                   .AddImage(icon.ImGuiHandle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
 
-            DrawDirectionArrowAt(iconPos + workPos, direction, iconSize, iconColor);
+                DrawDirectionArrowAt(iconPos + workPos, direction, iconSize, iconColor);
+            }
         }
     }
-
     private void DrawDirectionArrowAt(Vector2 screenPos, Vector2 direction, float iconSize, uint iconColor)
     {
         if (GetIcon(60541) is not { } arrow) return;
