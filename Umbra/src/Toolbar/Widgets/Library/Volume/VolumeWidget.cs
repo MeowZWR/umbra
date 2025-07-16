@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using Dalamud.Interface;
 using Dalamud.Plugin.Services;
+using System;
+using System.Diagnostics;
 using Umbra.Common;
 
 namespace Umbra.Widgets;
 
 [ToolbarWidget(
-    "Volume", 
-    "Widget.Volume.Name", 
-    "Widget.Volume.Description", 
+    "Volume",
+    "Widget.Volume.Name",
+    "Widget.Volume.Description",
     ["volume", "audio", "channels", "sound", "sfx", "bgm"]
 )]
 internal sealed partial class VolumeWidget(
@@ -34,7 +36,7 @@ internal sealed partial class VolumeWidget(
 
     protected override void OnDraw()
     {
-        SetFontAwesomeIcon(GetVolumeIcon("SoundMaster", "IsSndMaster"));
+        SetFontAwesomeIcon(GetVolumeIcon());
 
         Popup.ShowOptions = GetConfigValue<bool>("ShowOptions");
         Popup.ShowBgm     = GetConfigValue<bool>("ShowBgm");
@@ -52,19 +54,49 @@ internal sealed partial class VolumeWidget(
 
     private void ToggleMute()
     {
-        _gameConfig.System.Set("IsSndMaster", !_gameConfig.System.GetBool("IsSndMaster"));
+        string channelName = getMuteConfigName();
+
+        _gameConfig.System.Set(channelName, !_gameConfig.System.GetBool(channelName));
     }
 
-    private FontAwesomeIcon GetVolumeIcon(string volumeConfigName, string muteConfigName)
+    private FontAwesomeIcon GetVolumeIcon()
     {
-        if (_gameConfig.System.GetBool(muteConfigName)) {
+        if (_gameConfig.System.GetBool(getMuteConfigName())) {
             return GetConfigValue<FontAwesomeIcon>("MuteIcon");
         }
 
-        return _gameConfig.System.GetUInt(volumeConfigName) switch {
+        return _gameConfig.System.GetUInt(getVolumeConfigName()) switch {
             0    => GetConfigValue<FontAwesomeIcon>("OffIcon"),
             < 50 => GetConfigValue<FontAwesomeIcon>("DownIcon"),
             _    => GetConfigValue<FontAwesomeIcon>("UpIcon")
+        };
+    }
+
+    private string getMuteConfigName()
+    {
+        return GetConfigValue<string>("RightClickBehavior") switch {
+            "Master" => "IsSndMaster",
+            "BGM"    => "IsSndBgm",
+            "SFX"    => "IsSndSe",
+            "VOC"    => "IsSndVoice",
+            "AMB"    => "IsSndEnv",
+            "SYS"    => "IsSndSystem",
+            "PERF"   => "IsSndPerform",
+            _        => throw new InvalidOperationException("Invalid volume channel selected.")
+        };
+    }
+
+    private string getVolumeConfigName()
+    {
+        return GetConfigValue<string>("RightClickBehavior") switch {
+            "Master" => "SoundMaster",
+            "BGM"    => "SoundBgm",
+            "SFX"    => "SoundSe",
+            "VOC"    => "SoundVoice",
+            "AMB"    => "SoundEnv",
+            "SYS"    => "SoundSystem",
+            "PERF"   => "SoundPerform",
+            _        => throw new InvalidOperationException("Invalid volume channel selected.")
         };
     }
 }
