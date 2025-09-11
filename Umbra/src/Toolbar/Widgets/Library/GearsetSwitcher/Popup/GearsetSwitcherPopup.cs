@@ -1,10 +1,6 @@
 ﻿using FFXIVClientStructs.FFXIV.Client.UI.Agent;
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using Umbra.Common;
-using Umbra.Game;
-using Una.Drawing;
 
 namespace Umbra.Widgets.Popup;
 
@@ -36,7 +32,9 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
 
     protected override void OnOpen()
     {
-        CurrentGearset = GearsetRepository.CurrentGearset!;
+        HeaderNode.Style.IsVisible = _showHeader;
+        CurrentGearset             = GearsetRepository.CurrentGearset!;
+        
         UpdateGroupPositions();
 
         GearsetRepository.OnGearsetCreated  += OnGearsetCreatedOrUpdated;
@@ -74,25 +72,25 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
         UpdateHeaderNodes();
         UpdateGroupPositions();
         UpdateGearsetButtons();
+        UpdateColumns();
     }
 
     #region Header
 
+    private Node HeaderNode => Node.QuerySelector(".header")!;
     private Node HeaderIconNode => Node.QuerySelector("#header-icon")!;
     private Node HeaderNameNode => Node.QuerySelector("#header-name")!;
     private Node HeaderInfoNode => Node.QuerySelector("#header-info")!;
     private Node HeaderIlvlNode => Node.QuerySelector("#header-ilvl")!;
     private Node BackgroundNode => Node.QuerySelector(".background")!;
-    private Node RandomJobNode => Node.QuerySelector("#RandomJob")!;
+    private Node RandomJobNode  => Node.QuerySelector("#RandomJob")!;
 
     private void UpdateHeaderNodes()
     {
-        var jobInfo = Player.GetJobInfo(CurrentGearset.JobId);
-
-        HeaderIconNode.Style.IconId = jobInfo.Icons[_headerIconType];
-        HeaderNameNode.NodeValue = CurrentGearset.Name;
-        HeaderInfoNode.NodeValue = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
-        HeaderIlvlNode.NodeValue = $"{CurrentGearset.ItemLevel}";
+        SetIcon(HeaderIconNode, _headerIconType, CurrentGearset);
+        HeaderNameNode.NodeValue       = CurrentGearset.Name;
+        HeaderInfoNode.NodeValue       = GearsetSwitcherInfoDisplayProvider.GetInfoText(GearsetSwitcherInfoDisplayType.JobLevel, CurrentGearset, true);
+        HeaderIlvlNode.NodeValue       = $"{CurrentGearset.ItemLevel}";
         BackgroundNode.Style.IsVisible = _showGradientBackground;
 
         switch (CurrentGearset.Category) {
@@ -100,11 +98,11 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
             case GearsetCategory.Crafter:
             case GearsetCategory.Gatherer:
                 RandomJobNode.Style.Opacity = 0.3f;
-                RandomJobNode.Tooltip = I18N.Translate("Widget.GearsetSwitcher.RandomJobDisabled");
+                RandomJobNode.Tooltip       = I18N.Translate("Widget.GearsetSwitcher.RandomJobDisabled");
                 break;
             default:
                 RandomJobNode.Style.Opacity = 1f;
-                RandomJobNode.Tooltip = I18N.Translate("Widget.GearsetSwitcher.RandomJob");
+                RandomJobNode.Tooltip       = I18N.Translate("Widget.GearsetSwitcher.RandomJob");
                 break;
         }
 
@@ -115,6 +113,16 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
         BackgroundNode.ToggleClass("caster", CurrentGearset.Category == GearsetCategory.Caster);
         BackgroundNode.ToggleClass("crafter", CurrentGearset.Category == GearsetCategory.Crafter);
         BackgroundNode.ToggleClass("gatherer", CurrentGearset.Category == GearsetCategory.Gatherer);
+
+        bool canEquipRandomJob = GearsetRepository.CanEquipRandomJob();
+        Node randomJobNode     = Node.QuerySelector("#RandomJob")!;
+
+        randomJobNode.IsDisabled    = !canEquipRandomJob;
+        randomJobNode.Style.Opacity = canEquipRandomJob ? 1.0f : 0.5f;
+
+        randomJobNode.Tooltip = canEquipRandomJob
+            ? I18N.Translate("Widget.GearsetSwitcher.RandomJob")
+            : I18N.Translate("Widget.GearsetSwitcher.RandomJobDisabled");
     }
 
     private unsafe void OnHeaderButtonClicked(Node node)
@@ -139,5 +147,72 @@ internal sealed partial class GearsetSwitcherPopup : WidgetPopup
         }
     }
 
+    private void SetIcon(Node node, JobIconType jobIconType, Gearset gearset)
+    {
+        var jobInfo = Player.GetJobInfo(gearset.JobId);
+
+        switch (jobIconType) {
+            case JobIconType.PixelSprites:
+                node.Style.IconId = null;
+                node.ToggleClass("uld", true);
+                node.Style.UldPartId = jobInfo.GetUldIcon(jobIconType);
+                switch (gearset.Category) {
+                    case GearsetCategory.Crafter:
+                    case GearsetCategory.Gatherer:
+                        node.Style.UldResource = "ui/uld/WKSScoreList";
+                        node.Style.UldPartsId  = 2;
+                        break;
+                    default:
+                        node.Style.UldResource = "ui/uld/DeepDungeonScoreList";
+                        node.Style.UldPartsId  = 3;
+                        break;
+                }
+
+                break;
+            default:
+                node.ToggleClass("uld", false);
+                node.Style.IconId      = jobInfo.Icons[jobIconType];
+                node.Style.UldResource = null;
+                node.Style.UldPartsId  = null;
+                node.Style.UldPartId   = null;
+                break;
+        }
+    }
+
     #endregion
+
+    private void UpdateColumns()
+    {
+        UpdateColumnVisibility(LeftColumnNode);
+        UpdateColumnVisibility(MiddleColumnNode);
+        UpdateColumnVisibility(RightColumnNode);
+    }
+
+    private void UpdateColumnVisibility(Node columnNode)
+    {
+        bool isColumnVisible = false;
+
+        foreach (var node in GearsetGroupNodes.Values) {
+            if (node.ParentNode != columnNode) continue;
+
+            if (node.QuerySelector(".body")!.ChildNodes.Count == 0) {
+                node.Style.IsVisible = false;
+                continue;
+            }
+
+            isColumnVisible = true;
+            node.Style.IsVisible = node.Id switch {
+                "GearsetGroup_Tank"     => _showTankGroup,
+                "GearsetGroup_Healer"   => _showHealerGroup,
+                "GearsetGroup_Melee"    => _showMeleeGroup,
+                "GearsetGroup_Ranged"   => _showRangedGroup,
+                "GearsetGroup_Caster"   => _showCasterGroup,
+                "GearsetGroup_Crafter"  => _showCrafterGroup,
+                "GearsetGroup_Gatherer" => _showGathererGroup,
+                _                       => isColumnVisible
+            };
+        }
+
+        columnNode.Style.IsVisible = isColumnVisible;
+    }
 }

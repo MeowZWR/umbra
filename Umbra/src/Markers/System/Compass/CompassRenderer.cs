@@ -1,12 +1,6 @@
 ﻿using Dalamud.Interface.Textures.TextureWraps;
-using Dalamud.Plugin.Services;
-using ImGuiNET;
-using System;
-using System.Numerics;
-using Umbra.Common;
-using Umbra.Game;
+
 using Umbra.Interface;
-using Una.Drawing;
 using Una.Drawing.Clipping;
 
 namespace Umbra.Markers.System.Compass;
@@ -124,7 +118,7 @@ internal sealed class CompassRenderer(
 
         ImGui
            .GetBackgroundDrawList()
-           .AddImageRotated(arrow.ImGuiHandle, angle, arrowPos, new(halfSize * 2, halfSize * 2), new(iconColor));
+           .AddImageRotated(arrow.Handle, angle, arrowPos, new(halfSize * 2, halfSize * 2), new(iconColor));
     }
 
     /// <summary>

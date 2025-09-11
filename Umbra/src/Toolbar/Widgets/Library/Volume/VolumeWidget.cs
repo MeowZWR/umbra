@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using Dalamud.Interface;
-using Dalamud.Plugin.Services;
-using System;
-using System.Diagnostics;
-using Umbra.Common;
+﻿using System.Diagnostics;
 
 namespace Umbra.Widgets;
 
@@ -25,6 +20,9 @@ internal sealed partial class VolumeWidget(
     protected override StandardWidgetFeatures Features =>
         StandardWidgetFeatures.Icon;
 
+    protected override string DefaultSizingMode => SizingModeFixed;
+    protected override int    DefaultWidth      => 32;
+
     private readonly IGameConfig _gameConfig = Framework.Service<IGameConfig>();
 
     protected override void OnLoad()
@@ -45,6 +43,7 @@ internal sealed partial class VolumeWidget(
         Popup.ShowAmb     = GetConfigValue<bool>("ShowAmb");
         Popup.ShowSys     = GetConfigValue<bool>("ShowSys");
         Popup.ShowPerf    = GetConfigValue<bool>("ShowPerf");
+        Popup.ShowPresets = GetConfigValue<bool>("ShowPresets");
         Popup.ValueStep   = GetConfigValue<int>("ValueStep");
         Popup.UpIcon      = GetConfigValue<FontAwesomeIcon>("UpIcon");
         Popup.DownIcon    = GetConfigValue<FontAwesomeIcon>("DownIcon");
@@ -54,25 +53,25 @@ internal sealed partial class VolumeWidget(
 
     private void ToggleMute()
     {
-        string channelName = getMuteConfigName();
+        string channelName = GetMuteConfigName();
 
         _gameConfig.System.Set(channelName, !_gameConfig.System.GetBool(channelName));
     }
 
     private FontAwesomeIcon GetVolumeIcon()
     {
-        if (_gameConfig.System.GetBool(getMuteConfigName())) {
+        if (_gameConfig.System.GetBool(GetMuteConfigName())) {
             return GetConfigValue<FontAwesomeIcon>("MuteIcon");
         }
 
-        return _gameConfig.System.GetUInt(getVolumeConfigName()) switch {
+        return _gameConfig.System.GetUInt(GetVolumeConfigName()) switch {
             0    => GetConfigValue<FontAwesomeIcon>("OffIcon"),
             < 50 => GetConfigValue<FontAwesomeIcon>("DownIcon"),
             _    => GetConfigValue<FontAwesomeIcon>("UpIcon")
         };
     }
 
-    private string getMuteConfigName()
+    private string GetMuteConfigName()
     {
         return GetConfigValue<string>("RightClickBehavior") switch {
             "Master" => "IsSndMaster",
@@ -86,7 +85,7 @@ internal sealed partial class VolumeWidget(
         };
     }
 
-    private string getVolumeConfigName()
+    private string GetVolumeConfigName()
     {
         return GetConfigValue<string>("RightClickBehavior") switch {
             "Master" => "SoundMaster",

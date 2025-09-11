@@ -1,8 +1,4 @@
-﻿using Dalamud.Interface;
-using System.Collections.Generic;
-using Umbra.Common;
-
-namespace Umbra.Widgets;
+﻿namespace Umbra.Widgets;
 
 internal sealed partial class VolumeWidget
 {
@@ -17,12 +13,12 @@ internal sealed partial class VolumeWidget
                 "Master",
                 new() {
                     ["Master"] = I18N.Translate("Widget.Volume.Channel.Master"),
-                    ["BGM"] = I18N.Translate("Widget.Volume.Channel.BGM"),
-                    ["SFX"] = I18N.Translate("Widget.Volume.Channel.SFX"),
-                    ["VOC"] = I18N.Translate("Widget.Volume.Channel.VOC"),
-                    ["ENV"] = I18N.Translate("Widget.Volume.Channel.AMB"),
-                    ["SYS"] = I18N.Translate("Widget.Volume.Channel.SYS"),
-                    ["PERF"] = I18N.Translate("Widget.Volume.Channel.PERF"),
+                    ["BGM"]    = I18N.Translate("Widget.Volume.Channel.BGM"),
+                    ["SFX"]    = I18N.Translate("Widget.Volume.Channel.SFX"),
+                    ["VOC"]    = I18N.Translate("Widget.Volume.Channel.VOC"),
+                    ["ENV"]    = I18N.Translate("Widget.Volume.Channel.AMB"),
+                    ["SYS"]    = I18N.Translate("Widget.Volume.Channel.SYS"),
+                    ["PERF"]   = I18N.Translate("Widget.Volume.Channel.PERF"),
                 }
             ),
             new FaIconWidgetConfigVariable(
@@ -89,6 +85,12 @@ internal sealed partial class VolumeWidget
                 "ShowPerf",
                 I18N.Translate("Widget.Volume.Config.ShowPerf.Name"),
                 I18N.Translate("Widget.Volume.Config.ShowPerf.Description"),
+                true
+            ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
+            new BooleanWidgetConfigVariable(
+                "ShowPresets",
+                I18N.Translate("Widget.Volume.Config.ShowPresets.Name"),
+                I18N.Translate("Widget.Volume.Config.ShowPresets.Description"),
                 true
             ) { Category = I18N.Translate("Widget.ConfigCategory.MenuAppearance") },
             new IntegerWidgetConfigVariable(
