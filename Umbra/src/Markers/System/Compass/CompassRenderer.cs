@@ -99,7 +99,7 @@ internal sealed class CompassRenderer(
 
                 ImGui
                    .GetBackgroundDrawList()
-                   .AddImage(icon.ImGuiHandle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
+                   .AddImage(icon.Handle, p1, p2, Vector2.Zero, Vector2.One, iconColor);
 
                 DrawDirectionArrowAt(iconPos + workPos, direction, iconSize, iconColor);
             }
