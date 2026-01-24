@@ -18,9 +18,10 @@ internal sealed partial class VolumeWidget(
     public override VolumeWidgetPopup Popup { get; } = new();
 
     protected override StandardWidgetFeatures Features =>
-        StandardWidgetFeatures.Icon;
+        StandardWidgetFeatures.Icon |
+        StandardWidgetFeatures.Text;
 
-    protected override string DefaultSizingMode => SizingModeFixed;
+    protected override string DefaultSizingMode => SizingModeFit;
     protected override int    DefaultWidth      => 32;
 
     private readonly IGameConfig _gameConfig = Framework.Service<IGameConfig>();
@@ -28,12 +29,23 @@ internal sealed partial class VolumeWidget(
     protected override void OnLoad()
     {
         SetFontAwesomeIcon(FontAwesomeIcon.VolumeUp);
+        SetText(I18N.Translate("Widget.Volume.Label"));
 
         Node.OnRightClick += _ => ToggleMute();
     }
 
     protected override void OnDraw()
     {
+        // Set icon size to 32x32 regardless of widget size. This
+        //   prevents the widget from resizing when the icon changes.
+        Node iconNode = Node.QuerySelector(".icon")!;
+
+        if (GetConfigValue<string>("DisplayMode") == "IconOnly") {
+            iconNode.Style.Size = new(0, 0);
+        } else {
+            iconNode.Style.Size = new(32, 32);
+        }
+
         SetFontAwesomeIcon(GetVolumeIcon());
 
         Popup.ShowOptions = GetConfigValue<bool>("ShowOptions");
