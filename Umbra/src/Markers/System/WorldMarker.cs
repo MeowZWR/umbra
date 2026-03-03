@@ -39,6 +39,14 @@ public record WorldMarker
     /// this marker on the compass.
     /// </summary>
     public string? CompassText { get; set; }
+    /// Specifies the width of the icon in pixels. Defaults to 32.
+    /// </summary>
+    public int IconWidth { get; set; } = 32;
+
+    /// <summary>
+    /// Specifies the height of the icon in pixels. Defaults to 32.
+    /// </summary>
+    public int IconHeight { get; set; } = 32;
 
     /// <summary>
     /// <para>
