@@ -59,7 +59,15 @@ internal sealed class UmbraFonts
 
     public UmbraFonts()
     {
-        FontFamilies.Add("Dalamud Default", new(true, GetDalamudFontAsset("NotoSansCJKsc-Medium.otf")));
+        FontFamilies.Add(
+            "Dalamud Default",
+            new(
+                true,
+                FontRegistry.ResolveDefaultCjkFont(
+                    Framework.DalamudPlugin.DalamudAssetDirectory.FullName
+                ).FullName
+            )
+        );
         FontFamilies.Add("Dalamud Monospace", new(true, GetDalamudFontAsset("Inconsolata-Regular.ttf")));
         FontFamilies.Add("Dalamud Icons", new(true, GetDalamudFontAsset("FontAwesomeFreeSolid.otf")));
 
